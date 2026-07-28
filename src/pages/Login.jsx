@@ -18,9 +18,15 @@ export default function Login() {
   // with returnTo so the grant flow can resume). Same-origin paths only.
   const returnTo = safeReturnTo();
 
+  const ALLOWED_EMAILS = ["porter@hellopearl.com", "carson@hellopearl.com"];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    if (!ALLOWED_EMAILS.includes(email.toLowerCase().trim())) {
+      setError("This account is not authorized to log in.");
+      return;
+    }
     setLoading(true);
     try {
       await base44.auth.loginViaEmailPassword(email, password);
