@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Sparkles, Link2, Search as SearchIcon, Lock } from "lucide-react";
+import { Sparkles, Link2, Search as SearchIcon, Lock, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { isAllowedEmail } from "@/lib/allowlist";
 import CompanyResultCard from "@/components/grounded/CompanyResultCard";
@@ -22,7 +22,7 @@ const PRODUCT_TERMS = ["cbct", "second opinion 3d", "so3d", "3d"];
 const GENERATED_AT = "2026-07-28";
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [companySearch, setCompanySearch] = useState("");
   const [customerFilter, setCustomerFilter] = useState("all"); // all | customer | non_customer
   const [priorityFilter, setPriorityFilter] = useState("all"); // all | high | medium | low
@@ -60,8 +60,16 @@ export default function Home() {
     <main className="min-h-screen bg-[#f7f6f2] text-slate-900">
       <div className="mx-auto max-w-[1080px] px-4 py-6 sm:px-6 lg:px-8">
         <header className="mb-6">
-          <div className="mb-3 inline-flex items-center gap-1.5 rounded-lg bg-[#e6f4ee] px-2.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[#19734a]">
-            <Sparkles className="h-3.5 w-3.5" /> Second Opinion 3D
+          <div className="flex items-start justify-between gap-4">
+            <div className="mb-3 inline-flex items-center gap-1.5 rounded-lg bg-[#e6f4ee] px-2.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[#19734a]">
+              <Sparkles className="h-3.5 w-3.5" /> Second Opinion 3D
+            </div>
+            <button
+              onClick={() => logout()}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm transition hover:bg-slate-50 hover:text-slate-900"
+            >
+              <LogOut className="h-3.5 w-3.5" /> Log out
+            </button>
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-[#17243e] sm:text-4xl">
             Accounts that want CBCT / 3D when it ships.
