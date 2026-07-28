@@ -26,6 +26,12 @@ const formatDate = (s) => {
 
 const isHttpUrl = (u) => typeof u === "string" && /^https?:\/\//i.test(u.trim());
 
+const PRIORITY_META = {
+  high: { label: "Wants CBCT/3D", className: "bg-[#fff3ea] text-[#c2410c]" },
+  medium: { label: "Has 3D imaging", className: "bg-[#e6f0fb] text-[#1d4ed8]" },
+  low: { label: "Mentioned", className: "bg-slate-100 text-slate-500" },
+};
+
 // First one or two distinct evidence snippets — keeps the collapsed summary
 // to ~1–2 sentences while still proving *why* the company matched.
 function summarize(group, terms) {
@@ -85,6 +91,11 @@ export default function CompanyResultCard({ group, terms }) {
             <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${group.isCustomer ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>
               {group.isCustomer ? "Customer" : "Non-customer"}
             </span>
+            {PRIORITY_META[group.priority] && (
+              <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${PRIORITY_META[group.priority].className}`}>
+                {PRIORITY_META[group.priority].label}
+              </span>
+            )}
             <span className="text-[11px] font-medium text-slate-400">
               {group.evidences.length} evidence field{group.evidences.length === 1 ? "" : "s"}
               {topField ? ` · ${topField}` : ""}
